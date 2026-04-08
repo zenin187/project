@@ -21,3 +21,17 @@ print("\nSteps to solve Tower of Hanoi:\n")
 tower_of_hanoi(n, 'A', 'B', 'C')
 total_moves = (2 ** n) - 1
 print(f"\nMinimum number of moves: {total_moves}")
+
+
+
+
+n=3
+Move disk 1 from A to C
+Move disk 2 from A to B
+Move disk 1 from C to B
+Move disk 3 from A to C
+Move disk 1 from B to A
+Move disk 2 from B to C
+Move disk 1 from A to C
+
+Minimum number of moves: 7
