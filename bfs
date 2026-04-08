@@ -1,0 +1,48 @@
+Algorithm:
+Start with a graph (adjacency list).
+Choose a starting node.
+Mark the starting node as visited.
+Insert it into a queue.
+While the queue is not empty:
+Remove (dequeue) a node from the queue.
+Print/process the node.
+Add all unvisited neighbors to the queue.
+Mark them as visited.
+
+
+from collections import deque
+def bfs(graph, start):
+    visited = set()
+    queue = deque()
+    visited.add(start)
+    queue.append(start)
+    print("BFS Traversal:")
+    while queue:
+        node = queue.popleft()
+        print(node, end=" ")
+        for neighbor in graph[node]:
+            if neighbor not in visited:
+                visited.add(neighbor)
+                queue.append(neighbor)
+graph = {}
+n = int(input("Enter number of nodes: "))
+for i in range(n):
+    node = input(f"Enter node {i+1}: ")
+    neighbors = input(f"Enter neighbors of {node} (space-separated): ").split()
+    graph[node] = neighbors
+start_node = input("Enter starting node: ")
+bfs(graph, start_node)
+
+
+Enter number of nodes: 4
+Enter node 1: A
+Enter neighbors of A: B C
+Enter node 2: B
+Enter neighbors of B: D
+Enter node 3: C
+Enter neighbors of C: D
+Enter node 4: D
+Enter neighbors of D:
+Enter starting node: A
+BFS Traversal:
+A B C D
