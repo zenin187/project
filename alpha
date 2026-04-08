@@ -1,0 +1,86 @@
+Algorithm (Alpha-Beta Pruning)
+
+Input:
+
+depth → current depth in tree
+node_index → current node index in leaf array
+maximizing_player → True/False
+values → list of leaf node values
+alpha, beta → pruning thresholds
+max_depth → depth of the tree
+
+Output:
+
+best → optimal minimax value for current node
+Steps
+Base Case:
+If depth == max_depth → return values[node_index]
+If Maximizer’s Turn:
+Initialize best = -∞
+For each child i (0 or 1):
+child_index = node_index * 2 + i
+val = alpha_beta(depth+1, child_index, False, ...)
+best = max(best, val)
+alpha = max(alpha, best)
+Prune if beta <= alpha → break loop
+If Minimizer’s Turn:
+Initialize best = ∞
+For each child i (0 or 1):
+child_index = node_index * 2 + i
+val = alpha_beta(depth+1, child_index, True, ...)
+best = min(best, val)
+beta = min(beta, best)
+Prune if beta <= alpha → break loop
+Return best
+
+
+
+import math
+def alpha_beta(depth, node_index, maximizing_player, values, alpha, beta, max_depth):
+    if depth == max_depth:
+        return values[node_index]
+
+    if maximizing_player:
+        best = -math.inf
+        for i in range(2):
+            child_index = node_index * 2 + i
+            val = alpha_beta(depth + 1, child_index, False, values, alpha, beta, max_depth)
+            best = max(best, val)
+            alpha = max(alpha, best)
+            if beta <= alpha:
+                break
+        return best
+    else:
+        best = math.inf
+        for i in range(2):
+            child_index = node_index * 2 + i
+            val = alpha_beta(depth + 1, child_index, True, values, alpha, beta, max_depth)
+            best = min(best, val)
+            beta = min(beta, best)
+            if beta <= alpha:
+                break
+        return best
+n = int(input("Enter number of leaf nodes (power of 2): "))
+if n & (n - 1) != 0:
+    print("Please enter a power of 2 value.")
+    exit()
+values = []
+print("Enter leaf node values:")
+for i in range(n):
+    values.append(int(input(f"Value {i + 1}: ")))
+max_depth = int(math.log2(n))
+print("\nRunning Alpha-Beta Pruning...\n")
+result = alpha_beta(0, 0, True, values, -math.inf, math.inf, max_depth)
+print("Optimal value is:", result)
+
+
+Enter number of leaf nodes (power of 2): 8
+Enter leaf node values:
+Value 1: 3
+Value 2: 5
+Value 3: 6
+Value 4: 9
+Value 5: 1
+Value 6: 2
+Value 7: 0
+Value 8: -1
