@@ -81,3 +81,16 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+
+Enter capacity of Jug1: 4
+Enter capacity of Jug2: 3
+Enter target amount: 2
+Solution found in 6 steps:
+Step 0: Jug1 = 0, Jug2 = 0
+Step 1: Jug1 = 4, Jug2 = 0
+Step 2: Jug1 = 1, Jug2 = 3
+Step 3: Jug1 = 1, Jug2 = 0
+Step 4: Jug1 = 0, Jug2 = 1
+Step 5: Jug1 = 4, Jug2 = 1
+Step 6: Jug1 = 2, Jug2 = 3
