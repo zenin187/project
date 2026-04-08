@@ -1,0 +1,69 @@
+🔄 Steps of Algorithm (A*)
+1. Initialize
+Define start state and goal state
+Use a priority queue (min-heap)
+2. Evaluation Function
+f(n) = g(n) + h(n)
+g(n) = cost so far (moves)
+h(n) = heuristic (Manhattan distance)
+3. Process
+Insert start state into queue
+Repeat:
+Remove state with lowest f(n)
+If goal reached → stop
+Generate all valid moves
+Add new states to queue
+4. Avoid Repetition
+Keep a visited set
+
+
+from collections import deque
+def print_board(state):
+    for i in range(3):
+        print(state[i*3:(i+1)*3])
+    print()
+def get_neighbors(state):
+    neighbors = []
+    zero = state.index(0)
+    x, y = divmod(zero, 3)
+    moves = [(-1,0),(1,0),(0,-1),(0,1)]  # up, down, left, right
+    for dx, dy in moves:
+        nx, ny = x + dx, y + dy
+        if 0 <= nx < 3 and 0 <= ny < 3:
+            new = list(state)
+            new_zero = nx*3 + ny
+            new[zero], new[new_zero] = new[new_zero], new[zero]
+            neighbors.append(tuple(new))
+    return neighbors
+def solve_puzzle(start):
+    goal = (1,2,3,4,5,6,7,8,0)
+    queue = deque([start])
+    visited = set([start])
+    parent = {start: None}
+    while queue:
+        current = queue.popleft()
+        if current == goal:
+            path = []
+            while current:
+                path.append(current)
+                current = parent[current]
+            path.reverse()
+            return path
+        for neighbor in get_neighbors(current):
+            if neighbor not in visited:
+                visited.add(neighbor)
+                parent[neighbor] = current
+                queue.append(neighbor)
+    return None
+def main():
+    print("Enter initial state row-wise (use 0 for blank):")
+    start = tuple(map(int, input().split()))
+    path = solve_puzzle(start)
+    if path:
+        print(f"Solved in {len(path)-1} moves:\n")
+        for step in path:
+            print_board(step)
+    else:
+        print("No solution found!")
+if __name__ == "__main__":
+    main()
