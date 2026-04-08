@@ -1,0 +1,79 @@
+Steps:
+1. Start
+Create an empty board of size N × N.
+2. Place Queens Row by Row
+Try placing a queen in each column of the current row.
+3. Check Safety
+Before placing a queen at (row, col):
+Ensure no queen is in the same column.
+Ensure no queen is in:
+Upper-left diagonal
+Upper-right diagonal
+4. Place Queen
+If safe → place queen (Q).
+5. Recur
+Move to the next row and repeat.
+6. Backtrack
+If no valid position:
+Remove the queen (backtrack)
+Try next column
+7. Stop Condition
+If all queens are placed → solution found.
+
+
+def print_board(board, n):
+    print("\nSolution:\n")
+    for i in range(n):
+        for j in range(n):
+            print(board[i][j], end=" ")
+        print()
+    print()
+def is_safe(board, row, col, n):
+    # Check column
+    for i in range(row):
+        if board[i][col] == "Q":
+            return False
+    i, j = row - 1, col - 1
+    while i >= 0 and j >= 0:
+        if board[i][j] == "Q":
+            return False
+        i -= 1
+        j -= 1
+    i, j = row - 1, col + 1
+    while i >= 0 and j < n:
+        if board[i][j] == "Q":
+            return False
+        i -= 1
+        j += 1
+    return True
+def solve_n_queens(board, row, n):
+    if row == n:
+        print_board(board, n)
+        return True 
+    for col in range(n):
+        if is_safe(board, row, col, n):
+            board[row][col] = "Q"
+            if solve_n_queens(board, row + 1, n):
+                return True
+            board[row][col] = "."
+    return False
+def main():
+    n = int(input("Enter value of N (e.g., 8): "))
+    board = [["." for _ in range(n)] for _ in range(n)]
+    if not solve_n_queens(board, 0, n):
+        print("No solution exists!")
+if __name__ == "__main__":
+    main()
+
+Enter value of N (e.g., 8): 8
+
+Solution:
+
+Q . . . . . . .
+. . . . Q . . .
+. . . . . . . Q
+. . . . . Q . .
+. . Q . . . . .
+. . . . . . Q .
+. Q . . . . . .
+. . . Q . . . .
