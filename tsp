@@ -75,3 +75,13 @@ for i in range(n):
 cost, path = tsp(graph)
 print("\nMinimum cost:", cost)
 print("Optimal path:", " -> ".join(map(str, path)))
+
+
+Enter number of cities: 4
+Enter cost matrix:
+0 10 15 20
+10 0 35 25
+15 35 0 30
+20 25 30 0
+Minimum cost: 80
+Optimal path: 0 -> 1 -> 3 -> 2 -> 0
