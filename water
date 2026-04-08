@@ -1,0 +1,83 @@
+✅ Steps
+Define State
+Each state = (amount in Jug1, amount in Jug2).
+Initialize
+Start with (0, 0) → both jugs empty.
+Possible Actions
+Fill Jug1 → (A, y)
+Fill Jug2 → (x, B)
+Empty Jug1 → (0, y)
+Empty Jug2 → (x, 0)
+Pour Jug1 → Jug2
+If total ≤ B → (0, x+y)
+Else → (x-(B-y), B)
+Pour Jug2 → Jug1
+If total ≤ A → (x+y, 0)
+Else → (A, y-(A-x))
+Use BFS
+Keep a queue of states to explore.
+Keep a set of visited states to avoid loops.
+Goal Check
+If either jug contains exactly C liters → solution found.
+Backtrack Path
+Store parent states to reconstruct solution path.
+
+
+from collections import deque
+
+def water_jug_dp(cap1, cap2, target):
+    start = (0, 0)
+    queue = deque([start])
+    visited = set([start])
+    parent = {start: None}
+
+    while queue:
+        jug1, jug2 = queue.popleft()
+
+        # Check goal
+        if jug1 == target or jug2 == target:
+            # Reconstruct path
+            path = []
+            state = (jug1, jug2)
+            while state:
+                path.append(state)
+                state = parent[state]
+            path.reverse()
+            return path
+
+        # All possible moves
+        moves = set()
+
+        # Fill jug1
+        moves.add((cap1, jug2))
+        moves.add((jug1, cap2))
+        moves.add((0, jug2))
+        moves.add((jug1, 0))
+        pour = min(jug1, cap2 - jug2)
+        moves.add((jug1 - pour, jug2 + pour))
+        pour = min(jug2, cap1 - jug1)
+        moves.add((jug1 + pour, jug2 - pour))
+        for move in moves:
+            if move not in visited:
+                visited.add(move)
+                parent[move] = (jug1, jug2)
+                queue.append(move)
+
+    return None
+
+def main():
+    cap1 = int(input("Enter capacity of Jug1: "))
+    cap2 = int(input("Enter capacity of Jug2: "))
+    target = int(input("Enter target amount: "))
+
+    path = water_jug_dp(cap1, cap2, target)
+
+    if path:
+        print(f"\nSolution found in {len(path)-1} steps:\n")
+        for i, step in enumerate(path):
+            print(f"Step {i}: Jug1 = {step[0]}, Jug2 = {step[1]}")
+    else:
+        print("No solution possible!")
+
+if __name__ == "__main__":
+    main()
