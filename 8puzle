@@ -67,3 +67,21 @@ def main():
         print("No solution found!")
 if __name__ == "__main__":
     main()
+
+
+
+Enter initial state row-wise (use 0 for blank):
+1 2 3 4 0 6 7 5 8
+Solved in 4 moves:
+
+1 2 3
+4 0 6
+7 5 8
+
+1 2 3
+4 5 6
+7 0 8
+
+1 2 3
+4 5 6
+7 8 0
