@@ -1,0 +1,126 @@
+Steps
+Initialize
+Create a priority queue open_list and push (heuristic[start], start)
+Set g_cost[start] = 0
+For all other nodes, g_cost[node] = ∞
+Initialize parent[start] = None
+Loop while open_list is not empty
+Pop node current with smallest f(n) from open_list
+f(n) = g_cost[current] + heuristic[current]
+If current == goal
+Reconstruct path using parent dictionary
+Return path and g_cost[goal]
+For each neighbor of current:
+Compute tentative cost:
+new_cost = g_cost[current] + cost(current, neighbor)
+If new_cost < g_cost[neighbor]:
+Update g_cost[neighbor] = new_cost
+Compute f_cost = new_cost + heuristic[neighbor]
+Push (f_cost, neighbor) to open_list
+Set parent[neighbor] = current
+If queue is empty and goal not reached
+Return None (no path found)
+
+
+import heapq
+def a_star(graph, heuristic, start, goal):
+    open_list = []
+    heapq.heappush(open_list, (heuristic[start], start))
+
+    g_cost = {node: float('inf') for node in graph}
+    g_cost[start] = 0
+
+    parent = {start: None}
+
+    while open_list:
+        current_f, current = heapq.heappop(open_list)
+        if current == goal:
+            path = []
+            while current is not None:
+                path.append(current)
+                current = parent[current]
+
+            path.reverse()
+            return path, g_cost[goal]
+        for neighbor, cost in graph[current].items():
+            new_cost = g_cost[current] + cost
+
+            if new_cost < g_cost.get(neighbor, float('inf')):
+                g_cost[neighbor] = new_cost
+                f_cost = new_cost + heuristic[neighbor]
+                heapq.heappush(open_list, (f_cost, neighbor))
+                parent[neighbor] = current
+
+    return None, None
+graph = {}
+heuristic = {}
+
+n = int(input("Enter number of nodes: "))
+
+for i in range(n):
+    node = input(f"\nEnter node {i + 1} name: ")
+    heuristic[node] = int(input(f"Enter heuristic value for {node}: "))
+
+    neighbors = int(input(f"Enter number of neighbors for {node}: "))
+    graph[node] = {}
+
+    for j in range(neighbors):
+        neighbor = input(f"Enter neighbor {j + 1} of {node}: ")
+        cost = int(input(f"Enter cost from {node} to {neighbor}: "))
+        graph[node][neighbor] = cost
+        if neighbor not in graph:
+            graph[neighbor] = {}
+        if neighbor not in heuristic:
+            heuristic[neighbor] = 0
+
+
+start = input("\nEnter start node: ")
+goal = input("Enter goal node: ")
+
+path, cost = a_star(graph, heuristic, start, goal)
+
+if path:
+    print("\nShortest path:", " -> ".join(path))
+    print("Total cost:", cost)
+else:
+    print("Path not found")
+
+
+Enter number of nodes: 5
+
+Enter node 1 name: A
+Enter heuristic value for A: 7
+Enter number of neighbors for A: 2
+Enter neighbor 1 of A: B
+Enter cost from A to B: 2
+Enter neighbor 2 of A: C
+Enter cost from A to C: 4
+
+Enter node 2 name: B
+Enter heuristic value for B: 6
+Enter number of neighbors for B: 2
+Enter neighbor 1 of B: D
+Enter cost from B to D: 5
+Enter neighbor 2 of B: E
+Enter cost from B to E: 3
+
+Enter node 3 name: C
+Enter heuristic value for C: 4
+Enter number of neighbors for C: 1
+Enter neighbor 1 of C: D
+Enter cost from C to D: 1
+
+Enter node 4 name: D
+Enter heuristic value for D: 1
+Enter number of neighbors for D: 1
+Enter neighbor 1 of D: E
+Enter cost from D to E: 2
+
+Enter node 5 name: E
+Enter heuristic value for E: 0
+Enter number of neighbors for E: 0
+
+Enter start node: A
+Enter goal node: E
+Shortest path: A -> C -> D -> E
+Total cost: 7
