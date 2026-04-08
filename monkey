@@ -93,3 +93,17 @@ if steps:
         print(f"{i}. {step}")
 else:
     print("No solution found")
+
+
+Enter grid size (n x n): 3
+Enter stool X position: 1
+Enter stool Y position: 1
+Enter banana X position: 2
+Enter banana Y position: 2
+Minimum steps found: 6
+1. Walk to (1,0)
+2. Walk to (1,1)
+3. Climb stool
+4. Walk to (2,1)  # if you allow moving on stool
+5. Walk to (2,2)
+6. Grab banana
