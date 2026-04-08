@@ -1,0 +1,38 @@
+Algorithm (Recursive):
+Start with a graph (adjacency list).
+Choose a starting node.
+Mark the node as visited.
+Print/process the node.
+For each neighbor:
+If not visited → recursively apply DFS.
+
+
+def dfs(graph, node, visited):
+    if node not in visited:
+        print(node, end=" ")
+        visited.add(node)
+        for neighbor in graph[node]:
+            dfs(graph, neighbor, visited)
+graph = {}
+n = int(input("Enter number of nodes: "))
+for i in range(n):
+    node = input(f"Enter node {i+1}: ")
+    neighbors = input(f"Enter neighbors of {node} (space-separated): ").split()
+    graph[node] = neighbors
+start_node = input("Enter starting node: ")
+visited = set()
+print("DFS Traversal:")
+dfs(graph, start_node, visited)
+
+Enter number of nodes: 4
+Enter node 1: A
+Enter neighbors of A: B C
+Enter node 2: B
+Enter neighbors of B: D
+Enter node 3: C
+Enter neighbors of C: D
+Enter node 4: D
+Enter neighbors of D:
+Enter starting node: A
+  DFS Traversal:
+A B D C
