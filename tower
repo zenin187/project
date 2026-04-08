@@ -1,0 +1,23 @@
+Recursive Algorithm (High-Level)
+
+Function: Hanoi(n, source, target, auxiliary)
+Steps:
+Base case: If n == 1, move the disk from source to target.
+Recursive case:
+Move n-1 disks from source to auxiliary using target as helper.
+Move the nth disk from source to target.
+Move the n-1 disks from auxiliary to target using source as helper.
+
+
+def tower_of_hanoi(n, source, auxiliary, destination):
+    if n == 1:
+        print(f"Move disk 1 from {source} to {destination}")
+        return
+    tower_of_hanoi(n - 1, source, destination, auxiliary)
+    print(f"Move disk {n} from {source} to {destination}")
+    tower_of_hanoi(n - 1, auxiliary, source, destination)
+n = int(input("Enter number of disks: "))
+print("\nSteps to solve Tower of Hanoi:\n")
+tower_of_hanoi(n, 'A', 'B', 'C')
+total_moves = (2 ** n) - 1
+print(f"\nMinimum number of moves: {total_moves}")
