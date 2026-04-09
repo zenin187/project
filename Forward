@@ -1,0 +1,47 @@
+# Forward Chaining Implementation
+
+def forward_chaining(facts, rules, goal):
+    inferred = set(facts)
+
+    while True:
+        new_inferred = False
+
+        for premise, conclusion in rules:
+            # If all conditions in premise are satisfied
+            if all(p in inferred for p in premise):
+                if conclusion not in inferred:
+                    print(f"Inferred: {conclusion}")
+                    inferred.add(conclusion)
+                    new_inferred = True
+
+                    if conclusion == goal:
+                        print("Goal reached!")
+                        return True
+
+        if not new_inferred:
+            break
+
+    return goal in inferred
+
+
+# -------- Dynamic Input --------
+
+facts = input("Enter facts (space-separated): ").split()
+
+n = int(input("Enter number of rules: "))
+rules = []
+
+print("Enter rules (format: A B -> C):")
+for _ in range(n):
+    rule = input().split()
+    premise = rule[:-2]   # left side
+    conclusion = rule[-1] # right side
+    rules.append((premise, conclusion))
+
+goal = input("Enter goal: ")
+
+# -------- Run --------
+if forward_chaining(facts, rules, goal):
+    print("Goal is achievable")
+else:
+    print("Goal cannot be achieved")
